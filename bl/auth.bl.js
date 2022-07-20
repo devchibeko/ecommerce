@@ -1,4 +1,7 @@
-import { userService } from "../services/index.js"
+import UserService from "../services/user.service.js"
+import { result } from "../util/response.js"
+
+const userService = new UserService()
 
 class AuthBl {
 
@@ -11,7 +14,7 @@ class AuthBl {
       }
 
       if (user.password !== password) {
-        return result(400, "Invalid password.")
+        return result(400, "Invalid password.") 
       }
 
       const data = {
@@ -47,7 +50,7 @@ class AuthBl {
         token: newUser.token
       }
 
-      return result(200, "Successfilly redistered", data)
+      return result(200, "Successfully redistered", data)
 
     }
     catch (err) {
@@ -56,11 +59,5 @@ class AuthBl {
   }
 }
 
-
-function result(status, message, data) {
-  return {
-    status, message, data
-  }
-}
 
 export default AuthBl
