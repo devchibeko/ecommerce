@@ -1,39 +1,84 @@
-import { prisma } from "../config/database.js";
+import { prisma } from "../config/database.js"
 
+export default class ProductServices {
 
-export default class ProductService {
-  async productAll() {
+  async findAll() {
     return prisma.product.findMany()
   }
 
-  async create(name, image, price, about) {
-    return prisma.product.create({
-      data: { name, image, price, about }
+  async findByCategory(categoryId) {
+    return prisma.product.findMany({
+      where: {
+        categoryId
+      }
     })
   }
 
-  async update(id, name) {
-    return prisma.product.update({
-      data: { name },
-      where: { id }
-    })
-  }
-
-  async delete(id) {
-    return prisma.product.delete({
-      where: { id }
+  async findByOwner(sellerId, productId) {
+    return prisma.product.findFirst({
+      where: {
+        id: productId,
+        sellerId
+      }
     })
   }
 
   async findBySeller(sellerId) {
-    return prisma.product.findUnique({
-      where: { sellerId }
+    return prisma.product.findFirst({
+      where: {
+        sellerId
+      }
     })
   }
 
-  async findByCotegory(categoryId) {
-    return prisma.product.findUnique({
-      where: { categoryId }
+  async create(name, image, price, about, sellerId, categoryId) {
+    return prisma.product.create({
+      data: {
+        name,
+        image,
+        price,
+        about,
+        seller: {
+          connect: {
+            id: sellerId
+          }
+        },
+        category: {
+          connect: {
+            id: categoryId
+          }
+        }
+      }
     })
   }
+
+
+  async update(id, name, image, price, about, categoryId) {
+    return prisma.product.update({
+      where: {
+        id
+      },
+      data: {
+        name,
+        image,
+        price,
+        about,
+        category: {
+          connect: {
+            id: categoryId
+          }
+        }
+      }
+    })
+  }
+
+
+  async delete(id) {
+    return prisma.product.delete({
+      where: {
+        id
+      }
+    })
+  }
+
 }

@@ -39,7 +39,7 @@ router.delete('/category/:id', adminAuthorization, async (req, res) => {
   })
 })
 
-router.get('/category', uaAuthorization, async (req, res) => {
+router.get('/category', async (req, res) => {
 
   const result = await categoryBl.findAll()
 
