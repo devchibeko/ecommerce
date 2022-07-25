@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { prisma } from "../config/database.js";
 import { adminAuthorization, uaAuthorization } from '../middlewares/authorization.js'
 import CategoryBl from "../bl/category.bl.js";
 
